@@ -3,17 +3,19 @@ package resource
 import "github.com/EduOJ/backend/database/models"
 
 type User struct {
-	ID       uint   `json:"id"`
-	Username string `json:"username"`
-	Nickname string `json:"nickname"`
-	Email    string `json:"email"`
+	ID            uint   `json:"id"`
+	Username      string `json:"username"`
+	Nickname      string `json:"nickname"`
+	Email         string `json:"email"`
+	EmailVerified bool   `json:"email_verified"`
 }
 
 type UserForAdmin struct {
-	ID       uint   `json:"id"`
-	Username string `json:"username"`
-	Nickname string `json:"nickname"`
-	Email    string `json:"email"`
+	ID            uint   `json:"id"`
+	Username      string `json:"username"`
+	Nickname      string `json:"nickname"`
+	Email         string `json:"email"`
+	EmailVerified bool   `json:"email_verified"`
 
 	Roles  []Role  `json:"roles"`
 	Grades []Grade `json:"grades"`
@@ -27,6 +29,7 @@ func (p *User) convert(user *models.User) {
 	p.Username = user.Username
 	p.Nickname = user.Nickname
 	p.Email = user.Email
+	p.EmailVerified = user.EmailVerified
 }
 
 func (p *UserForAdmin) convert(user *models.User) {
@@ -37,6 +40,7 @@ func (p *UserForAdmin) convert(user *models.User) {
 	p.Username = user.Username
 	p.Nickname = user.Nickname
 	p.Email = user.Email
+	p.EmailVerified = user.EmailVerified
 	p.Roles = GetRoleSlice(user.Roles)
 	p.Grades = GetGradeSlice(user.Grades)
 }
