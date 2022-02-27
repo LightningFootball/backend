@@ -160,7 +160,7 @@ Note:
 			break
 		}
 		var role *models.Role
-		role, err = findRole(args[2])
+		role, err = findRole(strings.Trim(args[2], "\r"))
 		if err != nil {
 			log.Error(err)
 			break
@@ -212,7 +212,10 @@ Note:
 			log.Error(err)
 			break
 		}
-		role.AddPermission(args[2])
+		err := role.AddPermission(args[2])
+		if err != nil {
+			return false
+		}
 	case "quit", "q":
 		return true
 	default:
