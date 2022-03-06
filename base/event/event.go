@@ -9,7 +9,7 @@ import (
 var eventLock = sync.RWMutex{}
 var listeners = map[string][]interface{}{}
 
-// RegisterListener registers a listener with a event name.
+// RegisterListener registers a listener with an event name.
 // The listener should be a function.
 func RegisterListener(eventName string, listener interface{}) {
 	eventLock.Lock()

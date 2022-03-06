@@ -1,5 +1,7 @@
 package validator
 
+//该包调用go-playground/validator，实现验证输入字段合法性的功能
+
 import (
 	"github.com/EduOJ/backend/base/log"
 	zhTranslations "github.com/EduOJ/backend/base/validator/translations/zh"

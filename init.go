@@ -61,7 +61,10 @@ func startEcho() {
 	port := viper.GetInt("server.port")
 	base.Echo = echo.New()
 	base.Echo.Logger = &log.EchoLogger{}
+	//web framework "echo" configure
+	//hide shell banner
 	base.Echo.HideBanner = true
+	//hide shell port output
 	base.Echo.HidePort = true
 	base.Echo.Use(middleware.Recover())
 	base.Echo.Server.Addr = fmt.Sprintf(":%d", port)
