@@ -1,88 +1,42 @@
-
 <div align="center">
 
 # EduOJ
 
-[![codecov](https://codecov.io/gh/EduOJ/backend/branch/master/graph/badge.svg?token=5A6UTFJL0J)](https://codecov.io/gh/EduOJ/backend)
-[![Go Report Card](https://goreportcard.com/badge/github.com/eduoj/backend)](https://goreportcard.com/report/github.com/eduoj/backend)
-[![Test](https://github.com/EduOJ/backend/actions/workflows/%20test.yml/badge.svg)](https://github.com/EduOJ/backend/actions/workflows/%20test.yml)
 </div>
 
-# License.
+# 项目简介
 
-This project is licensed under
+该项目是一个基于[EduOJ](https://github.com/EduOJ/backend) 的分支项目，为本人的毕设项目。 该项目目的是在原项目基础上添加附加功能和改进。
+更多关于项目的开发信息，如代码风格、成员、权限、存储信息等，请参考原项目，恕不赘述。
+
+# 协议
+
+原EduOJ项目使用GPL v3开源协议，因而本项目也使用GPL v3开源协议。
+
 [GNU AFFERO GENERAL PUBLIC LICENSE Version 3](./license.md).
 
-# Contribution
+# 部署方式
 
-Our document is still under construction.
+该项目需要与前端项目配合使用，因此需要部署 [Frontend](https://github.com/LightningFootball/frontend) 部署。
 
-# Code style.
+当前后端项目的推荐部署方式为：
 
-All code must be formatted by go fmt.
-
-All tests of app/controllers is running with the same in-memory
-database, so they shouldn't rely on a clean database and shouldn't
-cleanup after runs. Also, they should be running under parallel mode.
-
-All other tests should make it own database and clean it up after
-running.
-
-# Roles
-
-|      Name       | Target  | Permission |
-|:---------------:|:-------:|:----------:|
-|      admin      |   N/A   |    all     |
-| problem_creator | problem |    all     |
-|  class_creator  |  class  |    all     |
-
-# Permissions
-
-Here are the permissions and their descriptions.
-
-|         Name         |                                                 Description                                                 |
-|:--------------------:|:-----------------------------------------------------------------------------------------------------------:|
-|      read_user       |                                        the permission to read users                                         |
-|     manage_user      |                                       the permission to manage users                                        |
-|    manage_problem    |                  无实际意义，但是有可能有update_problem / delete_problem权限的人必须拥有此全局权限。                  |
-|    create_problem    |                                               create problem                                                |
-|   read_submission    |                    read submission of a certain problem. unscoped can read all problems.                    |
-|    update_problem    | update problem. A scoped update_problem can only update selected problem. unscoped can update all problems. |
-|    delete_problem    |                                      delete a problem. same as above.                                       |
-| read_problem_secrets |                                read sensitive information such as test case.                                |
-|      read_logs       |                                                 read logs.                                                  |
-|  read_class_secrets  |                               read sensitive information such as invite code                                |
-|     manage_class     |                               the permission to manage a class or all classes                               |
-|   manage_students    |                         the permission to manage students of a class or all classes                         |
-| manage_problem_sets  |                       the permission to manage problem sets of a class or all classes                       |
-|  clone_problem_sets  |                       the permission to clone problem sets of a class or all classes                        |
-|     read_answers     |                                         read submissions in a class                                         |
-# Buckets:
-## images:
-images with their "path" as filename.
-## problems
-```
-problems
-└── problemID
-    ├── attachment
-    ├── input
-    │   └── testcase_id.in
-    └── output
-        └── testcase_id.out
-```
-## scripts
-```
-scripts
-└── script_name
-```
-## submissions
-```
-submissions
-└── submissionID
-    ├── run
-    |   └── runID
-    |       ├── output
-    |       ├── compiler_output
-    |       └── comparer_output
-    └── code
-```
+1. docker部署存储相关容器
+    1. minio/minio
+    2. postgres
+    3. redis
+2. 拉取后端
+    ```
+    git clone https://github.com/EduOJ/backend.git
+    cd backend
+    go build .
+   ```
+3. 修改配置文件
+    ```
+    cp config.yml.example config.yml
+    nano config.yml
+    ```
+4. 启动后端
+    ```
+    ./backend serve
+    ```
