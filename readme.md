@@ -1,4 +1,4 @@
-<div align="center">
+<div style="text-align:center">
 
 # EduOJ
 
@@ -22,21 +22,21 @@
 当前后端项目的推荐部署方式为：
 
 1. docker部署存储相关容器
-    1. minio/minio
-    2. postgres
-    3. redis
+   1. minio/minio
+   2. postgres
+   3. redis
 2. 拉取后端
-    ```
-    git clone https://github.com/EduOJ/backend.git
+    ```shell
+    git clone https://github.com/LightningFootball/backend.git
     cd backend
     go build .
    ```
 3. 修改配置文件
-    ```
+    ```shell
     cp config.yml.example config.yml
     nano config.yml
     ```
 4. 启动后端
-    ```
+    ```shell
     ./backend serve
     ```
