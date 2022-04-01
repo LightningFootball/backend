@@ -13,6 +13,8 @@ import (
 	"strings"
 )
 
+// Paginator
+// 分页，查询
 func Paginator(query *gorm.DB, limit, offset int, requestURL *url.URL, output interface{}) (total int, prevUrl, nextUrl *string, err error) {
 	if limit == 0 {
 		limit = 20 // Default limit

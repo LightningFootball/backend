@@ -116,6 +116,7 @@ func CreateSubmission(c echo.Context) error {
 func GetSubmission(c echo.Context) error {
 	var startedAt time.Time
 	poll := false
+	//查询传入context的poll是否为1
 	if c.QueryParam("poll") == "1" {
 		poll = true
 	}

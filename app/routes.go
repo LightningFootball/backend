@@ -14,12 +14,14 @@ import (
 
 func Register(e *echo.Echo) {
 	utils.InitOrigin()
+	//todo:此处的recover设置是否重复？与init.go:69中调用Register前的设置可能重复
 	e.Use(middleware.Recover)
 	e.Use(echoMiddleware.CORSWithConfig(echoMiddleware.CORSConfig{
 		AllowOrigins:     utils.Origins,
 		AllowMethods:     []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete, http.MethodOptions},
 		AllowCredentials: true,
 	}))
+	//为api组创建Authentication中间件
 	api := e.Group("/api", middleware.Authentication)
 
 	// judger APIs
@@ -85,7 +87,7 @@ func Register(e *echo.Echo) {
 	readProblemSecret := api.Group("",
 		middleware.ValidateParams(map[string]string{
 			"id":           "NOT_FOUND",
-			"test_case_id": "TEST_CASE_NOT_FOUND",
+			"test_case_id": "                                                                                                                                               b",
 		}),
 		middleware.Logged,
 		middleware.HasPermission(middleware.OrPermission{
@@ -153,6 +155,15 @@ func Register(e *echo.Echo) {
 	submission.GET("/submission/:submission_id/run/:id/input", controller.GetRunInput, middleware.Logged).Name = "submission.getRunInput"
 	submission.GET("/submission/:submission_id/run/:id/compiler_output", controller.GetRunCompilerOutput, middleware.Logged).Name = "submission.getRunCompilerOutput"
 	submission.GET("/submission/:submission_id/run/:id/comparer_output", controller.GetRunComparerOutput, middleware.Logged).Name = "submission.getRunComparerOutput"
+
+	analysis := api.Group("",
+		middleware.ValidateParams(map[string]string{
+			"id":         "NOT_FOUND",
+			"problem_id": "PROBLEM_NOT_FOUND",
+		}),
+		middleware.Logged,
+	)
+	analysis.GET("/analysis/basic", controller.GetSubmissionsBasicAnalysis, middleware.Logged).Name = "analysis.getSubmissionsBasicAnalysis"
 
 	// log API
 	api.GET("/admin/logs", controller.AdminGetLogs,
