@@ -26,6 +26,16 @@ func (c Class) GetID() uint {
 	return c.ID
 }
 
+// GetStudents
+// 获得一个User结构体的切片 []User
+func (c Class) GetStudents() []User {
+	var stu []User
+	for _, student := range c.Students {
+		stu = append(stu, *student)
+	}
+	return stu
+}
+
 func (c Class) TypeName() string {
 	return "class"
 }

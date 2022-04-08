@@ -164,6 +164,7 @@ func Register(e *echo.Echo) {
 		middleware.Logged,
 	)
 	analysis.GET("/analysis/basic", controller.GetSubmissionsBasicAnalysis, middleware.Logged).Name = "analysis.getSubmissionsBasicAnalysis"
+	analysis.GET("/analysis/ProblemSetSpecificProblem", controller.GetProblemSetSpecificProblemAnalysis, middleware.Logged).Name = "analysis.GetProblemSetSpecificProblemAnalysis"
 
 	// log API
 	api.GET("/admin/logs", controller.AdminGetLogs,

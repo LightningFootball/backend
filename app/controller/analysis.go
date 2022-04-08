@@ -16,13 +16,16 @@ import (
 // GetSubmissionsBasicAnalysis
 // 获取基础提交分析，用于指定用户的指定题目的提交集的基础分析
 func GetSubmissionsBasicAnalysis(c echo.Context) error {
+	var submissions []models.Submission
+	var analysis models.SubmissionBasicAnalysis
+
 	req := request.GetSubmissionsBasicAnalysisRequest{}
 	if err, ok := utils.BindAndValidate(&req, c); !ok {
 		return err
 	}
 
 	query := base.DB.Model(&models.Submission{}).Preload("User").Preload("Problem").
-		Where("problem_set_id = 0").Order("id DESC") // Force order by id desc.
+		Where("problem_set_id = ?", req.ProblemSetId).Order("id DESC") // Force order by id desc.
 
 	if req.ProblemId != 0 {
 		query = query.Where("problem_id = ?", req.ProblemId)
@@ -36,20 +39,35 @@ func GetSubmissionsBasicAnalysis(c echo.Context) error {
 	if err != nil {
 		err = errors.Wrap(err, "could not query count of objects")
 	}
-
-	var submissions []models.Submission
-	err = query.Find(&submissions).Error
-	if err != nil {
-		err = errors.Wrap(err, "could not query objects")
+	if total64 == 0 {
+		return c.JSON(http.StatusOK, response.GetSubmissionsBasicAnalysisResponse{
+			Message: "SUCCESS",
+			Error:   nil,
+			Data: struct {
+				BasicAnalysisResponse resource.BasicAnalysis `json:"analysis"`
+			}{
+				BasicAnalysisResponse: resource.BasicAnalysis{
+					UserID: analysis.UserID,
+					//此处需要对User进行转换，analysis.User为model.User类型，response.User为resource.User类型
+					User:                 nil,
+					ProblemID:            analysis.ProblemID,
+					ProblemSetID:         analysis.ProblemSetID,
+					LanguageName:         analysis.LanguageName,
+					TotalSubmissionCount: 0,
+					FirstSubmissionTime:  analysis.FirstSubmissionTime,
+					FirstPassTime:        analysis.FirstPassTime,
+					LastSubmissionTime:   analysis.LastSubmissionTime,
+					TotalWorkTime:        analysis.TotalWorkTime,
+					HighestScore:         analysis.HighestScore,
+				}},
+		})
 	}
-
-	//totalSubmissionCount为总提交次数
-	//firstSubmissionTime为首次提交时间,
-	//firstPassTime为首次通过时间
-	//lastSubmissionTime为最后提交时间
-	//totalWorkTime为从第一次提交到最后一次提交时间的总时间
-	var analysis models.SubmissionBasicAnalysis
 	if total64 > 0 {
+		err = query.Find(&submissions).Error
+		if err != nil {
+			err = errors.Wrap(err, "could not query objects")
+		}
+
 		analysis.UserID = submissions[0].UserID
 		analysis.User = submissions[0].User
 		analysis.ProblemID = submissions[0].ProblemID
@@ -82,37 +100,22 @@ func GetSubmissionsBasicAnalysis(c echo.Context) error {
 		}
 		analysis.LastSubmissionTime = t
 
-		analysis.TotalWorkTime = time.Duration(analysis.FirstSubmissionTime.Sub(analysis.FirstSubmissionTime).Seconds())
-	} else {
-		return c.JSON(http.StatusOK, response.GetSubmissionsBasicAnalysisResponse{
-			Message: "SUCCESS",
-			Error:   nil,
-			Data: struct {
-				Analysis resource.Analysis `json:"analysis"`
-			}{
-				Analysis: resource.Analysis{
-					UserID: analysis.UserID,
-					//此处需要对User进行转换，analysis.User为model.User类型，response.User为resource.User类型
-					User:                 nil,
-					ProblemID:            analysis.ProblemID,
-					ProblemSetID:         analysis.ProblemSetID,
-					LanguageName:         analysis.LanguageName,
-					TotalSubmissionCount: 0,
-					FirstSubmissionTime:  analysis.FirstSubmissionTime,
-					FirstPassTime:        analysis.FirstPassTime,
-					LastSubmissionTime:   analysis.LastSubmissionTime,
-					TotalWorkTime:        analysis.TotalWorkTime,
-				}},
-		})
+		analysis.TotalWorkTime = time.Duration(analysis.LastSubmissionTime.Sub(analysis.FirstSubmissionTime).Seconds())
+
+		for i := 0; i < len(submissions); i++ {
+			if submissions[i].Score > analysis.HighestScore {
+				analysis.HighestScore = submissions[i].Score
+			}
+		}
 	}
 
 	return c.JSON(http.StatusOK, response.GetSubmissionsBasicAnalysisResponse{
 		Message: "SUCCESS",
 		Error:   nil,
 		Data: struct {
-			Analysis resource.Analysis `json:"analysis"`
+			BasicAnalysisResponse resource.BasicAnalysis `json:"analysis"`
 		}{
-			Analysis: resource.Analysis{
+			BasicAnalysisResponse: resource.BasicAnalysis{
 				UserID: analysis.UserID,
 				//此处需要对User进行转换，analysis.User为model.User类型，response.User为resource.User类型
 				User: &resource.User{
@@ -129,6 +132,118 @@ func GetSubmissionsBasicAnalysis(c echo.Context) error {
 				FirstPassTime:        analysis.FirstPassTime,
 				LastSubmissionTime:   analysis.LastSubmissionTime,
 				TotalWorkTime:        analysis.TotalWorkTime,
+				HighestScore:         analysis.HighestScore,
 			}},
+	})
+}
+
+// GetProblemSetSpecificProblemAnalysis
+// 获取指定问题集指定题目各学生总的分析，形式为一个结构体数组，每结构体包含一个学生在该问题集的该题目下的提交情况
+func GetProblemSetSpecificProblemAnalysis(c echo.Context) error {
+	var users []models.User
+	var submissions []models.Submission
+	var generalAnalysis []models.ProblemSetSpecificProblemAnalysis
+
+	req := request.GetProblemSetSpecificProblemAnalysis{}
+	if err, ok := utils.BindAndValidate(&req, c); !ok {
+		return err
+	}
+
+	//先找到所有学生，生成以每个学生为一个结构体的结构体切片
+	//1.先找到班级id
+	var problemSet models.ProblemSet
+	queryClassID := base.DB.Model(&models.ProblemSet{}).Where("id = ?", req.ProblemSetId)
+	err := queryClassID.First(&problemSet).Error
+	if err != nil {
+		err = errors.Wrap(err, "could not query classID")
+	}
+	classID := problemSet.ClassID
+	//2.再找到班级结构体，取出其下的所有学生
+	var classStruct models.Class
+	queryUsers := base.DB.Model(&models.Class{}).Preload("Students").Where("id=?", classID)
+	err = queryUsers.Find(&classStruct).Error
+	if err != nil {
+		err = errors.Wrap(err, "could not query users")
+	}
+	users = classStruct.GetStudents()
+
+	//再找到所有学生的所有提交
+	query := base.DB.Model(&models.Submission{}).Preload("User").Preload("Problem").
+		Where("problem_set_id = ?", req.ProblemSetId).Order("id DESC") // Force order by id desc.
+	query = query.Where("problem_id = ?", req.ProblemId)
+
+	total64 := int64(0)
+	err = query.Count(&total64).Error
+	if err != nil {
+		err = errors.Wrap(err, "could not query count of objects")
+	}
+	//if total64 == 0 {
+	//
+	//}
+
+	err = query.Find(&submissions).Error
+	if err != nil {
+		err = errors.Wrap(err, "could not query objects")
+	}
+
+	//最后将所有提交填入
+	for i := 0; i < len(users); i++ {
+		generalAnalysis = append(generalAnalysis, models.ProblemSetSpecificProblemAnalysis{})
+		generalAnalysis[i].UserID = users[i].ID
+		generalAnalysis[i].User = &users[i]
+	}
+
+	for i, _ := range generalAnalysis {
+		for j, _ := range submissions {
+			if generalAnalysis[i].UserID == submissions[j].UserID {
+				generalAnalysis[i].Submissions = append(generalAnalysis[i].Submissions, submissions[j])
+			}
+		}
+	}
+
+	for i, _ := range generalAnalysis {
+		generalAnalysis[i].TotalSubmissionCount = len(generalAnalysis[i].Submissions)
+
+		t := time.Now()
+		for j := 0; j < len(generalAnalysis[i].Submissions); j++ {
+			if generalAnalysis[i].Submissions[j].CreatedAt.Before(t) && generalAnalysis[i].Submissions[j].Score == 100 {
+				t = generalAnalysis[i].Submissions[j].CreatedAt
+			}
+		}
+		generalAnalysis[i].FirstPassTime = t
+
+		t = time.Now()
+		for j := 0; j < len(generalAnalysis[i].Submissions); j++ {
+			if generalAnalysis[i].Submissions[j].CreatedAt.Before(t) {
+				t = submissions[i].CreatedAt
+			}
+		}
+		generalAnalysis[i].FirstSubmissionTime = t
+
+		//此时t=analysis.FirstSubmissionTime
+		for j := 0; j < len(generalAnalysis[i].Submissions); j++ {
+			if generalAnalysis[i].Submissions[j].CreatedAt.After(t) {
+				t = generalAnalysis[i].Submissions[j].CreatedAt
+			}
+		}
+		generalAnalysis[i].LastSubmissionTime = t
+
+		generalAnalysis[i].TotalWorkTime = time.Duration(generalAnalysis[i].LastSubmissionTime.Sub(generalAnalysis[i].FirstSubmissionTime).Seconds())
+
+		for j := 0; j < len(generalAnalysis[i].Submissions); j++ {
+			if generalAnalysis[i].Submissions[j].Score > generalAnalysis[i].HighestScore {
+				generalAnalysis[i].HighestScore = generalAnalysis[i].Submissions[j].Score
+			}
+		}
+	}
+
+	return c.JSON(http.StatusOK, response.GetProblemSetSpecificProblemAnalysis{
+		Message: "SUCCESS",
+		Error:   nil,
+		Data: struct {
+			ProblemSetSpecificProblemAnalysisResponse []resource.ProblemSetSpecificProblemAnalysis `json:"problem_set_specific_problem_analysis_response"`
+		}{
+			ProblemSetSpecificProblemAnalysisResponse: resource.GetProblemSetSpecificProblemAnalysis(generalAnalysis),
+		},
 	})
 }
