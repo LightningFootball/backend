@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type BasicAnalysis struct {
+type ProblemSetProblemUserAnalysisResource struct {
 	UserID       uint   `json:"user_id"`
 	User         *User  `json:"user"`
 	ProblemID    uint   `json:"problem_id"`
@@ -21,7 +21,7 @@ type BasicAnalysis struct {
 	HighestScore         uint          `json:"highest_score"`
 }
 
-type ProblemSetSpecificProblemAnalysis struct {
+type ProblemSetProblemAnalysisResource struct {
 	UserID uint  `json:"user_id"`
 	User   *User `json:"user"`
 
@@ -36,10 +36,10 @@ type ProblemSetSpecificProblemAnalysis struct {
 	Submissions []Submission `json:"submissions"`
 }
 
-func GetProblemSetSpecificProblemAnalysis(model []models.ProblemSetSpecificProblemAnalysis) []ProblemSetSpecificProblemAnalysis {
-	var result []ProblemSetSpecificProblemAnalysis
+func GetProblemSetProblemAnalysisResource(model []models.ProblemSetProblemAnalysis) []ProblemSetProblemAnalysisResource {
+	var result []ProblemSetProblemAnalysisResource
 	for i, _ := range model {
-		result = append(result, ProblemSetSpecificProblemAnalysis{
+		result = append(result, ProblemSetProblemAnalysisResource{
 			UserID:               model[i].UserID,
 			User:                 GetUser(model[i].User),
 			TotalSubmissionCount: model[i].TotalSubmissionCount,
@@ -52,15 +52,4 @@ func GetProblemSetSpecificProblemAnalysis(model []models.ProblemSetSpecificProbl
 		})
 	}
 	return result
-	//analysis.UserID = model.UserID
-	//analysis.User = GetUser(model.User)
-	//
-	//analysis.TotalSubmissionCount = model.TotalSubmissionCount
-	//analysis.FirstSubmissionTime = model.FirstSubmissionTime
-	//analysis.FirstPassTime = model.FirstPassTime
-	//analysis.LastSubmissionTime = model.LastSubmissionTime
-	//analysis.TotalWorkTime = model.TotalWorkTime
-	//analysis.HighestScore = model.HighestScore
-	//
-	//analysis.Submissions=GetSubmissionSlice(model.Submissions)
 }

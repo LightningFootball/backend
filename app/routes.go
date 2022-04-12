@@ -163,8 +163,8 @@ func Register(e *echo.Echo) {
 		}),
 		middleware.Logged,
 	)
-	analysis.GET("/analysis/basic", controller.GetSubmissionsBasicAnalysis, middleware.Logged).Name = "analysis.getSubmissionsBasicAnalysis"
-	analysis.GET("/analysis/ProblemSetSpecificProblem", controller.GetProblemSetSpecificProblemAnalysis, middleware.Logged).Name = "analysis.GetProblemSetSpecificProblemAnalysis"
+	analysis.GET("/analysis/problem-set/:problem_set_id/problem/:problem_id/user/:user_id", controller.GetProblemSetProblemUserAnalysis, middleware.Logged).Name = "analysis.getSubmissionsBasicAnalysis"
+	analysis.GET("/analysis/problem-set/:problem_set_id/problem/:problem_id", controller.GetProblemSetProblemAnalysis, middleware.Logged).Name = "analysis.GetProblemSetProblemAnalysis"
 
 	// log API
 	api.GET("/admin/logs", controller.AdminGetLogs,

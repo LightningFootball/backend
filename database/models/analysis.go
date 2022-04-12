@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type SubmissionBasicAnalysis struct {
+type ProblemSetProblemUserAnalysis struct {
 	UserID uint `json:"user_id"`
 	//model.User
 	User         *User  `json:"user"`
@@ -25,7 +25,7 @@ type SubmissionBasicAnalysis struct {
 	HighestScore uint `json:"highest_score"`
 }
 
-type ProblemSetSpecificProblemAnalysis struct {
+type ProblemSetProblemAnalysis struct {
 	UserID uint `json:"user_id"`
 	//model.User
 	User *User `json:"user"`

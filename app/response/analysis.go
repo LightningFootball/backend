@@ -2,18 +2,18 @@ package response
 
 import "github.com/EduOJ/backend/app/response/resource"
 
-type GetSubmissionsBasicAnalysisResponse struct {
+type GetProblemSetProblemUserAnalysisResponse struct {
 	Message string      `json:"message"`
 	Error   interface{} `json:"error"`
 	Data    struct {
-		BasicAnalysisResponse resource.BasicAnalysis `json:"analysis"`
+		Analysis resource.ProblemSetProblemUserAnalysisResource `json:"analysis"`
 	} `json:"data"`
 }
 
-type GetProblemSetSpecificProblemAnalysis struct {
+type GetProblemSetProblemAnalysisResponse struct {
 	Message string      `json:"message"`
 	Error   interface{} `json:"error"`
 	Data    struct {
-		ProblemSetSpecificProblemAnalysisResponse []resource.ProblemSetSpecificProblemAnalysis `json:"problem_set_specific_problem_analysis_response"`
+		Analysis []resource.ProblemSetProblemAnalysisResource `json:"analysis"`
 	} `json:"data"`
 }

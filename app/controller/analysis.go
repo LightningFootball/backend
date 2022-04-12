@@ -1,11 +1,9 @@
 package controller
 
 import (
-	"github.com/EduOJ/backend/app/request"
 	"github.com/EduOJ/backend/app/response"
 	"github.com/EduOJ/backend/app/response/resource"
 	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/base/utils"
 	"github.com/EduOJ/backend/database/models"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
@@ -13,26 +11,16 @@ import (
 	"time"
 )
 
-// GetSubmissionsBasicAnalysis
+// GetProblemSetProblemUserAnalysis
 // 获取基础提交分析，用于指定用户的指定题目的提交集的基础分析
-func GetSubmissionsBasicAnalysis(c echo.Context) error {
+func GetProblemSetProblemUserAnalysis(c echo.Context) error {
 	var submissions []models.Submission
-	var analysis models.SubmissionBasicAnalysis
-
-	req := request.GetSubmissionsBasicAnalysisRequest{}
-	if err, ok := utils.BindAndValidate(&req, c); !ok {
-		return err
-	}
+	var analysis models.ProblemSetProblemUserAnalysis
 
 	query := base.DB.Model(&models.Submission{}).Preload("User").Preload("Problem").
-		Where("problem_set_id = ?", req.ProblemSetId).Order("id DESC") // Force order by id desc.
-
-	if req.ProblemId != 0 {
-		query = query.Where("problem_id = ?", req.ProblemId)
-	}
-	if req.UserId != 0 {
-		query = query.Where("user_id = ?", req.UserId)
-	}
+		Where("problem_set_id=?", c.Param("problem_set_id")).Order("id DESC") // Force order by id desc.
+	query = query.Where("problem_id=?", c.Param("problem_id"))
+	query = query.Where("user_id=?", c.Param("user_id"))
 
 	total64 := int64(0)
 	err := query.Count(&total64).Error
@@ -40,13 +28,13 @@ func GetSubmissionsBasicAnalysis(c echo.Context) error {
 		err = errors.Wrap(err, "could not query count of objects")
 	}
 	if total64 == 0 {
-		return c.JSON(http.StatusOK, response.GetSubmissionsBasicAnalysisResponse{
+		return c.JSON(http.StatusOK, response.GetProblemSetProblemUserAnalysisResponse{
 			Message: "SUCCESS",
 			Error:   nil,
 			Data: struct {
-				BasicAnalysisResponse resource.BasicAnalysis `json:"analysis"`
+				Analysis resource.ProblemSetProblemUserAnalysisResource `json:"analysis"`
 			}{
-				BasicAnalysisResponse: resource.BasicAnalysis{
+				Analysis: resource.ProblemSetProblemUserAnalysisResource{
 					UserID: analysis.UserID,
 					//此处需要对User进行转换，analysis.User为model.User类型，response.User为resource.User类型
 					User:                 nil,
@@ -109,13 +97,13 @@ func GetSubmissionsBasicAnalysis(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusOK, response.GetSubmissionsBasicAnalysisResponse{
+	return c.JSON(http.StatusOK, response.GetProblemSetProblemUserAnalysisResponse{
 		Message: "SUCCESS",
 		Error:   nil,
 		Data: struct {
-			BasicAnalysisResponse resource.BasicAnalysis `json:"analysis"`
+			Analysis resource.ProblemSetProblemUserAnalysisResource `json:"analysis"`
 		}{
-			BasicAnalysisResponse: resource.BasicAnalysis{
+			Analysis: resource.ProblemSetProblemUserAnalysisResource{
 				UserID: analysis.UserID,
 				//此处需要对User进行转换，analysis.User为model.User类型，response.User为resource.User类型
 				User: &resource.User{
@@ -137,22 +125,17 @@ func GetSubmissionsBasicAnalysis(c echo.Context) error {
 	})
 }
 
-// GetProblemSetSpecificProblemAnalysis
+// GetProblemSetProblemAnalysis
 // 获取指定问题集指定题目各学生总的分析，形式为一个结构体数组，每结构体包含一个学生在该问题集的该题目下的提交情况
-func GetProblemSetSpecificProblemAnalysis(c echo.Context) error {
+func GetProblemSetProblemAnalysis(c echo.Context) error {
 	var users []models.User
 	var submissions []models.Submission
-	var generalAnalysis []models.ProblemSetSpecificProblemAnalysis
-
-	req := request.GetProblemSetSpecificProblemAnalysis{}
-	if err, ok := utils.BindAndValidate(&req, c); !ok {
-		return err
-	}
+	var generalAnalysis []models.ProblemSetProblemAnalysis
 
 	//先找到所有学生，生成以每个学生为一个结构体的结构体切片
 	//1.先找到班级id
 	var problemSet models.ProblemSet
-	queryClassID := base.DB.Model(&models.ProblemSet{}).Where("id = ?", req.ProblemSetId)
+	queryClassID := base.DB.Model(&models.ProblemSet{}).Where("id = ?", c.Param("problem_set_id"))
 	err := queryClassID.First(&problemSet).Error
 	if err != nil {
 		err = errors.Wrap(err, "could not query classID")
@@ -169,8 +152,8 @@ func GetProblemSetSpecificProblemAnalysis(c echo.Context) error {
 
 	//再找到所有学生的所有提交
 	query := base.DB.Model(&models.Submission{}).Preload("User").Preload("Problem").
-		Where("problem_set_id = ?", req.ProblemSetId).Order("id DESC") // Force order by id desc.
-	query = query.Where("problem_id = ?", req.ProblemId)
+		Where("problem_set_id = ?", c.Param("problem_set_id")).Order("id DESC") // Force order by id desc.
+	query = query.Where("problem_id = ?", c.Param("problem_id"))
 
 	total64 := int64(0)
 	err = query.Count(&total64).Error
@@ -188,7 +171,7 @@ func GetProblemSetSpecificProblemAnalysis(c echo.Context) error {
 
 	//最后将所有提交填入
 	for i := 0; i < len(users); i++ {
-		generalAnalysis = append(generalAnalysis, models.ProblemSetSpecificProblemAnalysis{})
+		generalAnalysis = append(generalAnalysis, models.ProblemSetProblemAnalysis{})
 		generalAnalysis[i].UserID = users[i].ID
 		generalAnalysis[i].User = &users[i]
 	}
@@ -237,13 +220,13 @@ func GetProblemSetSpecificProblemAnalysis(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusOK, response.GetProblemSetSpecificProblemAnalysis{
+	return c.JSON(http.StatusOK, response.GetProblemSetProblemAnalysisResponse{
 		Message: "SUCCESS",
 		Error:   nil,
 		Data: struct {
-			ProblemSetSpecificProblemAnalysisResponse []resource.ProblemSetSpecificProblemAnalysis `json:"problem_set_specific_problem_analysis_response"`
+			Analysis []resource.ProblemSetProblemAnalysisResource `json:"analysis"`
 		}{
-			ProblemSetSpecificProblemAnalysisResponse: resource.GetProblemSetSpecificProblemAnalysis(generalAnalysis),
+			Analysis: resource.GetProblemSetProblemAnalysisResource(generalAnalysis),
 		},
 	})
 }
