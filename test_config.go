@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/EduOJ/backend/base/log"
+	"github.com/LightningFootball/backend/base/log"
 )
 
 func testConfig() {

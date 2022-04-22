@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/EduOJ/backend/base/exit"
-	"github.com/EduOJ/backend/base/log"
+	"github.com/LightningFootball/backend/base/exit"
+	"github.com/LightningFootball/backend/base/log"
 	"os"
 	"os/signal"
 	"syscall"

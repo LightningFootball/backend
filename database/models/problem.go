@@ -3,9 +3,9 @@ package models
 import (
 	"context"
 	"fmt"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/base/log"
-	"github.com/EduOJ/backend/database"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/base/log"
+	"github.com/LightningFootball/backend/database"
 	"github.com/minio/minio-go/v7"
 	"gorm.io/gorm"
 	"time"

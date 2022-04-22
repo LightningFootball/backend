@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/EduOJ/backend/app/response/resource"
+	"github.com/LightningFootball/backend/app/response/resource"
 )
 
 type GetUserResponse struct {

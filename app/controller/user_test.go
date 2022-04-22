@@ -2,12 +2,12 @@ package controller_test
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/app/request"
-	"github.com/EduOJ/backend/app/response"
-	"github.com/EduOJ/backend/app/response/resource"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/base/utils"
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/app/request"
+	"github.com/LightningFootball/backend/app/response"
+	"github.com/LightningFootball/backend/app/response/resource"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/base/utils"
+	"github.com/LightningFootball/backend/database/models"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"

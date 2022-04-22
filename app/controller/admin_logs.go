@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"github.com/EduOJ/backend/app/request"
-	"github.com/EduOJ/backend/app/response"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/base/utils"
-	"github.com/EduOJ/backend/database/models/log"
+	"github.com/LightningFootball/backend/app/request"
+	"github.com/LightningFootball/backend/app/response"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/base/utils"
+	"github.com/LightningFootball/backend/database/models/log"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"

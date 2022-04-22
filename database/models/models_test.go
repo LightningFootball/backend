@@ -1,8 +1,8 @@
 package models
 
 import (
-	"github.com/EduOJ/backend/base/exit"
-	"github.com/EduOJ/backend/database"
+	"github.com/LightningFootball/backend/base/exit"
+	"github.com/LightningFootball/backend/database"
 	"os"
 	"testing"
 )

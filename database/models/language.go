@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/EduOJ/backend/database"
+	"github.com/LightningFootball/backend/database"
 	"time"
 )
 

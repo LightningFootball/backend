@@ -1,8 +1,8 @@
 package log
 
 import (
-	"github.com/EduOJ/backend/base/event"
-	"github.com/EduOJ/backend/base/log"
+	"github.com/LightningFootball/backend/base/event"
+	"github.com/LightningFootball/backend/base/log"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"

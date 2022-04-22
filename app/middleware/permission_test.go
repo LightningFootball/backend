@@ -2,10 +2,10 @@ package middleware_test
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/app/middleware"
-	"github.com/EduOJ/backend/app/response"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/app/middleware"
+	"github.com/LightningFootball/backend/app/response"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/database/models"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"net/http"

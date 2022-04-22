@@ -3,7 +3,7 @@ package utils
 import (
 	"context"
 	"fmt"
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 	"github.com/minio/minio-go/v7"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"

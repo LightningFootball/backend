@@ -2,8 +2,8 @@ package models
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/database"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/database"
 	"github.com/stretchr/testify/assert"
 	"hash/fnv"
 	"testing"

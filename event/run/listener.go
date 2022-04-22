@@ -3,7 +3,7 @@ package submission
 import (
 	"context"
 	"fmt"
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 )
 
 func NotifyGetSubmissionPoll(r EventArgs) EventRst {

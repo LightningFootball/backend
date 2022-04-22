@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 	"gorm.io/gorm"
 	"time"
 )

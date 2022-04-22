@@ -1,11 +1,11 @@
 package log
 
 import (
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/base/event"
-	"github.com/EduOJ/backend/base/exit"
-	"github.com/EduOJ/backend/database"
-	log2 "github.com/EduOJ/backend/database/models/log"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/base/event"
+	"github.com/LightningFootball/backend/base/exit"
+	"github.com/LightningFootball/backend/database"
+	log2 "github.com/LightningFootball/backend/database/models/log"
 	"github.com/kami-zh/go-capturer"
 	"github.com/stretchr/testify/assert"
 	"testing"

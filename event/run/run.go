@@ -1,6 +1,6 @@
 package submission
 
-import "github.com/EduOJ/backend/database/models"
+import "github.com/LightningFootball/backend/database/models"
 
 // EventArgs is the arguments of "run" event.
 type EventArgs = *models.Run

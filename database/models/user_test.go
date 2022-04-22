@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

@@ -1,6 +1,6 @@
 package resource
 
-import "github.com/EduOJ/backend/database/models"
+import "github.com/LightningFootball/backend/database/models"
 
 type Permission struct {
 	ID   uint   `gorm:"primaryKey" json:"id"`

@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 	"github.com/go-gormigrate/gormigrate/v2"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"

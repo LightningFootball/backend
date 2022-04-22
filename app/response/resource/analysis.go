@@ -1,7 +1,7 @@
 package resource
 
 import (
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/database/models"
 
 	"time"
 )
@@ -38,7 +38,7 @@ type ProblemSetProblemAnalysisResource struct {
 
 func GetProblemSetProblemAnalysisResource(model []models.ProblemSetProblemAnalysis) []ProblemSetProblemAnalysisResource {
 	var result []ProblemSetProblemAnalysisResource
-	for i, _ := range model {
+	for i := range model {
 		result = append(result, ProblemSetProblemAnalysisResource{
 			UserID:               model[i].UserID,
 			User:                 GetUser(model[i].User),

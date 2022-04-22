@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/EduOJ/backend/database/models/log"
+	"github.com/LightningFootball/backend/database/models/log"
 )
 
 type AdminGetLogsResponse struct {

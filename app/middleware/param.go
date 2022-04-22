@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/EduOJ/backend/app/response"
+	"github.com/LightningFootball/backend/app/response"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"

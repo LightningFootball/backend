@@ -2,9 +2,9 @@ package resource_test
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/app/response/resource"
-	"github.com/EduOJ/backend/base/utils"
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/app/response/resource"
+	"github.com/LightningFootball/backend/base/utils"
+	"github.com/LightningFootball/backend/database/models"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 	"testing"

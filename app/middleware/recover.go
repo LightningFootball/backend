@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/app/response"
-	"github.com/EduOJ/backend/base/log"
+	"github.com/LightningFootball/backend/app/response"
+	"github.com/LightningFootball/backend/base/log"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"

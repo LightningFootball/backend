@@ -2,8 +2,8 @@ package middleware_test
 
 import (
 	"bytes"
-	"github.com/EduOJ/backend/app/middleware"
-	"github.com/EduOJ/backend/app/response"
+	"github.com/LightningFootball/backend/app/middleware"
+	"github.com/LightningFootball/backend/app/response"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"

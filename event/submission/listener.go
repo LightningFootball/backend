@@ -1,7 +1,7 @@
 package submission
 
 import (
-	"github.com/EduOJ/backend/base/utils"
+	"github.com/LightningFootball/backend/base/utils"
 	"github.com/pkg/errors"
 )
 

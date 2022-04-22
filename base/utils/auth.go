@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/database/models"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"sync"

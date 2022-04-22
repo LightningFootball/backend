@@ -2,8 +2,8 @@ package utils
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/database/models"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"net/http"

@@ -2,10 +2,10 @@ package utils
 
 import (
 	"context"
-	"github.com/EduOJ/backend/app/response"
-	"github.com/EduOJ/backend/base"
-	"github.com/EduOJ/backend/base/log"
-	validator2 "github.com/EduOJ/backend/base/validator"
+	"github.com/LightningFootball/backend/app/response"
+	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/base/log"
+	validator2 "github.com/LightningFootball/backend/base/validator"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/minio/minio-go/v7"

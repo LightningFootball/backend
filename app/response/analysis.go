@@ -1,6 +1,6 @@
 package response
 
-import "github.com/EduOJ/backend/app/response/resource"
+import "github.com/LightningFootball/backend/app/response/resource"
 
 type GetProblemSetProblemUserAnalysisResponse struct {
 	Message string      `json:"message"`

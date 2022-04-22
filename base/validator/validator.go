@@ -3,8 +3,8 @@ package validator
 //该包调用go-playground/validator，实现验证输入字段合法性的功能
 
 import (
-	"github.com/EduOJ/backend/base/log"
-	zhTranslations "github.com/EduOJ/backend/base/validator/translations/zh"
+	"github.com/LightningFootball/backend/base/log"
+	zhTranslations "github.com/LightningFootball/backend/base/validator/translations/zh"
 	zhLocal "github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"

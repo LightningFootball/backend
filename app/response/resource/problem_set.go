@@ -2,7 +2,7 @@ package resource
 
 import (
 	"database/sql"
-	"github.com/EduOJ/backend/database/models"
+	"github.com/LightningFootball/backend/database/models"
 	"github.com/pkg/errors"
 	"time"
 )

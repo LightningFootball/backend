@@ -1,4 +1,4 @@
-module github.com/EduOJ/backend
+module github.com/LightningFootball/backend
 
 go 1.14
 

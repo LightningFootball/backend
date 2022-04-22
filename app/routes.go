@@ -1,10 +1,10 @@
 package app
 
 import (
-	"github.com/EduOJ/backend/app/controller"
-	"github.com/EduOJ/backend/app/middleware"
-	"github.com/EduOJ/backend/base/log"
-	"github.com/EduOJ/backend/base/utils"
+	"github.com/LightningFootball/backend/app/controller"
+	"github.com/LightningFootball/backend/app/middleware"
+	"github.com/LightningFootball/backend/base/log"
+	"github.com/LightningFootball/backend/base/utils"
 	"github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"

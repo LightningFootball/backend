@@ -2,7 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"github.com/EduOJ/backend/app/response"
+	"github.com/LightningFootball/backend/app/response"
 	"github.com/labstack/echo/v4"
 )
 

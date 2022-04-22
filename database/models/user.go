@@ -3,7 +3,7 @@ package models
 import (
 	"encoding/binary"
 	"encoding/json"
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 	"github.com/duo-labs/webauthn/webauthn"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"

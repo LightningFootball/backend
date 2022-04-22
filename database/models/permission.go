@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 )
 
 type HasRole interface {

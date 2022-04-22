@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/EduOJ/backend/base"
+	"github.com/LightningFootball/backend/base"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 	"time"

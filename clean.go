@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/EduOJ/backend/base/exit"
-	"github.com/EduOJ/backend/base/log"
-	"github.com/EduOJ/backend/base/utils"
+	"github.com/LightningFootball/backend/base/exit"
+	"github.com/LightningFootball/backend/base/log"
+	"github.com/LightningFootball/backend/base/utils"
 	"os"
 )
 
