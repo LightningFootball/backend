@@ -15,6 +15,7 @@ func serve() {
 	initRedis()
 	initStorage()
 	initWebAuthn()
+	initCrontab()
 	initEvent()
 	startEcho()
 	s := make(chan os.Signal, 1)

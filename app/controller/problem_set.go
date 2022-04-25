@@ -38,6 +38,8 @@ func CreateProblemSet(c echo.Context) error {
 		EndTime:     req.EndTime,
 	}
 	utils.PanicIfDBError(base.DB.Create(&problemSet), "could not create problem set for creating problem set")
+	//set reporter
+	Reporter(problemSet)
 	return c.JSON(http.StatusCreated, response.CreateProblemSetResponse{
 		Message: "SUCCESS",
 		Error:   nil,

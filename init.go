@@ -189,3 +189,9 @@ func initWebAuthn() {
 		os.Exit(-1)
 	}
 }
+
+func initCrontab() {
+	log.Debug("Starting crontab.")
+	utils.StartCron()
+	log.Debug("Crontab started.")
+}
