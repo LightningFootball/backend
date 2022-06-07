@@ -40,3 +40,17 @@ type ProblemSetProblemAnalysis struct {
 
 	Submissions []Submission `json:"submissions"`
 }
+
+// 作业报告
+// todo:后续可以把report几个struct改成map，应该会提高report那部分数据填充的效率
+type ProblemSetStudentReport struct {
+	UserID   uint            `json:"user_id"`
+	UserName string          `json:"user_name"`
+	NickName string          `json:"nick_name"`
+	Problem  []SimpleProblem `json:"simple_problem"`
+}
+
+type SimpleProblem struct {
+	ProblemID    uint `json:"problem_id"`
+	HighestScore uint `json:"highest_score"`
+}

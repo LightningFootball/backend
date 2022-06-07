@@ -6,6 +6,7 @@ import (
 	"github.com/LightningFootball/backend/app/response"
 	"github.com/LightningFootball/backend/app/response/resource"
 	"github.com/LightningFootball/backend/base"
+	"github.com/LightningFootball/backend/base/report"
 	"github.com/LightningFootball/backend/base/utils"
 	"github.com/LightningFootball/backend/database/models"
 	"github.com/labstack/echo/v4"
@@ -38,8 +39,10 @@ func CreateProblemSet(c echo.Context) error {
 		EndTime:     req.EndTime,
 	}
 	utils.PanicIfDBError(base.DB.Create(&problemSet), "could not create problem set for creating problem set")
+
 	//set reporter
-	Reporter(problemSet)
+	report.Reporter(problemSet)
+
 	return c.JSON(http.StatusCreated, response.CreateProblemSetResponse{
 		Message: "SUCCESS",
 		Error:   nil,

@@ -4,6 +4,9 @@
     "color": "EEEEEE"
   },
   "CHECKS": {
-    "prefixes": ["fix: ", "feat: "]
+    "prefixes": [
+      "fix: ",
+      "feat: "
+    ]
   }
 }

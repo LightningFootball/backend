@@ -59,6 +59,25 @@ func (c *Class) AddStudents(ids []uint) error {
 	return base.DB.Model(c).Association("Students").Append(&users)
 }
 
+func (c *Class) AddManagers(ids []uint) error {
+	if len(ids) == 0 {
+		return nil
+	}
+	existingIds := make([]uint, len(c.Managers))
+	for i, s := range c.Managers {
+		existingIds[i] = s.ID
+	}
+	var users []User
+	query := base.DB
+	if len(existingIds) != 0 {
+		query = base.DB.Where("id not in (?)", existingIds)
+	}
+	if err := query.Find(&users, ids).Error; err != nil {
+		return err
+	}
+	return base.DB.Model(c).Association("Managers").Append(&users)
+}
+
 func (c *Class) DeleteStudents(ids []uint) error {
 	if len(ids) == 0 {
 		return nil

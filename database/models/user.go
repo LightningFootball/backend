@@ -165,7 +165,7 @@ func (u *User) Can(permission string, target ...HasRole) bool {
 			}
 		}
 	} else {
-		// Specific permisison
+		// Specific permission
 		for _, role := range u.Roles {
 			if role.Role.Target != nil && *role.Role.Target == target[0].TypeName() && role.TargetID == target[0].GetID() {
 				for _, perm := range role.Role.Permissions {

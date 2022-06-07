@@ -22,9 +22,9 @@
 当前后端项目的推荐部署方式为：
 
 1. docker部署存储相关容器
-   1. minio/minio
-   2. postgres
-   3. redis
+    1. minio/minio
+    2. postgres
+    3. redis
 2. 拉取后端
     ```shell
     git clone https://github.com/LightningFootball/backend.git
